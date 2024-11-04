@@ -46,16 +46,19 @@ class ParamGroup:
 
 class ModelParams(ParamGroup): 
     def __init__(self, parser, sentinel=False):
+        self.device = "cuda:0"
         self.sh_degree = 3
         self._source_path = ""
         self._model_path = ""
         self._images = "images"
         self._depths = ""
+        self.masks = ""
         self._resolution = -1
         self._white_background = False
         self.train_test_exp = False
-        self.data_device = "cuda"
+        self.data_device = "cpu"
         self.eval = False
+        self.llffhold = None
         super().__init__(parser, "Loading Parameters", sentinel)
 
     def extract(self, args):
@@ -68,16 +71,20 @@ class PipelineParams(ParamGroup):
         self.convert_SHs_python = False
         self.compute_cov3D_python = False
         self.debug = False
+        self.use_depth_loss = False
         self.antialiasing = False
+        self.deblur = False
+        self.blur_sample_num = 2
+        self.non_uniform = False
         super().__init__(parser, "Pipeline Parameters")
 
 class OptimizationParams(ParamGroup):
     def __init__(self, parser):
-        self.iterations = 30_000
+        self.iterations = 90_000
         self.position_lr_init = 0.00016
-        self.position_lr_final = 0.0000016
+        self.position_lr_final = 0.00000016
         self.position_lr_delay_mult = 0.01
-        self.position_lr_max_steps = 30_000
+        self.position_lr_max_steps = 90_000
         self.feature_lr = 0.0025
         self.opacity_lr = 0.025
         self.scaling_lr = 0.005
