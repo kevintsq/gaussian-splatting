@@ -105,7 +105,7 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, depths_params,
         image_path = os.path.join(images_folder, extr.name)
         image_name = extr.name
         depth_path = os.path.join(depths_folder, f"{extr.name[:-n_remove]}.png") if depths_folder else None
-        mask_path = f"{masks_folder}/{extr.name.replace('.jpg', '.png')}" if masks_folder else None
+        mask_path = f"{masks_folder}/{extr.name}.png" if masks_folder else None
         if mask_path is None or not os.path.exists(mask_path):
             continue
 

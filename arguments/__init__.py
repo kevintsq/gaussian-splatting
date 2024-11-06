@@ -54,10 +54,10 @@ class ModelParams(ParamGroup):
         self._depths = ""
         self.masks = ""
         self._resolution = -1
-        self._white_background = False
+        self._white_background = True
         self.train_test_exp = False
         self.data_device = "cpu"
-        self.eval = False
+        self.eval = True
         self.llffhold = None
         super().__init__(parser, "Loading Parameters", sentinel)
 
@@ -71,9 +71,9 @@ class PipelineParams(ParamGroup):
         self.convert_SHs_python = False
         self.compute_cov3D_python = False
         self.debug = False
-        self.use_depth_loss = False
-        self.antialiasing = False
-        self.deblur = False
+        self.use_depth_loss = True
+        self.antialiasing = True
+        self.deblur = True
         self.blur_sample_num = 2
         self.non_uniform = False
         super().__init__(parser, "Pipeline Parameters")
@@ -98,7 +98,7 @@ class OptimizationParams(ParamGroup):
         self.densification_interval = 100
         self.opacity_reset_interval = 3000
         self.densify_from_iter = 500
-        self.densify_until_iter = 15_000
+        self.densify_until_iter = 25_000
         self.densify_grad_threshold = 0.0002
         self.depth_l1_weight_init = 1.0
         self.depth_l1_weight_final = 0.01
@@ -124,6 +124,6 @@ def get_combined_args(parser : ArgumentParser):
 
     merged_dict = vars(args_cfgfile).copy()
     for k,v in vars(args_cmdline).items():
-        if v != None:
+        if v is not None:
             merged_dict[k] = v
     return Namespace(**merged_dict)

@@ -113,7 +113,7 @@ def render(viewpoint_camera, pc: GaussianModel, pipe, bg_color: torch.Tensor,
     # Apply exposure to rendered image (training only)
     if use_trained_exp:
         exposure = pc.get_exposure_from_name(viewpoint_camera.image_name)
-        rendered_image = rendered_image.permute(1, 2, 0) @ exposure[:3, :3].permute(2, 0, 1) + exposure[:3, 3, None, None]
+        rendered_image = (rendered_image.permute(1, 2, 0) @ exposure[:3, :3]).permute(2, 0, 1) + exposure[:3, 3, None, None]
 
     # Those Gaussians that were frustum culled or had a radius of 0 were not visible.
     # They will be excluded from value updates used in the splitting criteria.
